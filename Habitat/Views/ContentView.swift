@@ -34,9 +34,8 @@ struct ContentView: View {
                     Button(action: {showingAlert.toggle()}) {
                         Label("Add Item", systemImage: "plus")
                     }
-                    .alert("Enter name of the Habit", isPresented: $showingAlert) {
-                        TextField("Enter name of the Habit", text: $currentHabitName)
-                        Button("Add", action: addHabit)
+                    .sheet(isPresented: $showingAlert) {
+                        HabitInputView()
                     }
                 }
             }
