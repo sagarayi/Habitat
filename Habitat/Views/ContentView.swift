@@ -17,15 +17,24 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             List {
-                ForEach(habits) { habit in
-                    NavigationLink {
-                        Text("Name: \(habit.name), starts on: \(habit.startDate , format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(habit.name)
+                LazyVStack(spacing: 16) {
+                    ForEach(habits) { habit in
+                        HabitCardView(habit: habit)
+                            .contextMenu {
+                                Button("Delete", role: .destructive) {
+                                    if let index = habits.firstIndex(of: habit) {
+                                        deleteHabit(offsets: IndexSet(integer: index))
+                                    }
+                                }
+                            }
                     }
                 }
-                .onDelete(perform: deleteHabit)
+                .padding()
             }
+            .listStyle(.plain)
+            .navigationTitle("Habitat")
+            .background(Color.clear)
+            .listRowSeparator(.hidden)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
